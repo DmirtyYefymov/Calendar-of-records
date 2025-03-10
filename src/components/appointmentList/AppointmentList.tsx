@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 
 import AppointmentItem from "../appointmentItem.tsx/AppointmentItem";
 import Spinner from "../spinner/Spinner";
@@ -18,6 +18,11 @@ function AppointmentList() {
 
     useEffect(() => {
         getActiveAppointments();
+    }, []);
+
+    const handleOpenModal = useCallback((id: number) => {
+        setIsOpen(true);
+        setSelectedId(id);
     }, []);
 
     if (appoitmentLoadingStatus === "loading") {
@@ -42,8 +47,7 @@ function AppointmentList() {
                 <AppointmentItem
                     key={item.id}
                     {...item}
-                    openModal={setIsOpen}
-                    selectedId={() => setSelectedId(item.id)}
+                    openModal={handleOpenModal}
                 />
             ))}
 
